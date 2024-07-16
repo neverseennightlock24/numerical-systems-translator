@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Character Encoding and Decoding</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #ffffff;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      font-size: 16px;
+      background-color: #333;
+      color: #ffffff;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      font-size: 16px;
+      background-color: #333;
+      color: #ffffff;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    p {
+      text-align: center;
+      font-size: 16px;
+      color: #ffffff;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .output-container {
+      background: #333;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Character Encoding and Decoding</h1>
+
+    <h2>Encode Text</h2>
+    <textarea id="input" rows="4" placeholder="Enter text to encode..."></textarea>
+    <label for="encoding-type">Choose encoding type:</label>
+    <select id="encoding-type">
+      <option value="binary">Binary</option>
+      <option value="octal">Octal</option>
+      <option value="hexadecimal">Hexadecimal</option>
+    </select>
+    <button onclick="encode()">Encode</button>
+    <div class="output-container">
+      <p id="encoded-output"></p>
+    </div>
+
+    <h2>Decode Text</h2>
+    <textarea id="encoded-input" rows="4" placeholder="Enter encoded text..."></textarea>
+    <label for="decoding-type">Choose decoding type:</label>
+    <select id="decoding-type">
+      <option value="binary">Binary</option>
+      <option value="octal">Octal</option>
+      <option value="hexadecimal">Hexadecimal</option>
+    </select>
+    <button onclick="decode()">Decode</button>
+    <div class="output-container">
+      <p id="decoded-output"></p>
+    </div>
+  </div>
+
+  <script>
+    function toBinary(char) {
+      return char.charCodeAt(0).toString(2).padStart(8, '0');
+    }
+
+    function toOctal(char) {
+      return char.charCodeAt(0).toString(8).padStart(3, '0');
+    }
+
+    function toHexadecimal(char) {
+      return char.charCodeAt(0).toString(16).padStart(2, '0');
+    }
+
+    function encode() {
+      const input = document.getElementById('input').value;
+      const encodingType = document.getElementById('encoding-type').value;
+      let encoded;
+
+      switch (encodingType) {
+        case 'binary':
+          encoded = input.split('').map(toBinary).join(' ');
+          break;
+        case 'octal':
+          encoded = input.split('').map(toOctal).join(' ');
+          break;
+        case 'hexadecimal':
+          encoded = input.split('').map(toHexadecimal).join(' ');
+          break;
+        default:
+          encoded = input;
+      }
+
+      document.getElementById('encoded-output').textContent = encoded;
+    }
+
+    function fromBinary(binaryStr) {
+      return String.fromCharCode(parseInt(binaryStr, 2));
+    }
+
+    function fromOctal(octalStr) {
+      return String.fromCharCode(parseInt(octalStr, 8));
+    }
+
+    function fromHexadecimal(hexStr) {
+      return String.fromCharCode(parseInt(hexStr, 16));
+    }
+
+    function decode() {
+      const encodedInput = document.getElementById('encoded-input').value;
+      const decodingType = document.getElementById('decoding-type').value;
+      let decoded;
+
+      switch (decodingType) {
+        case 'binary':
+          decoded = encodedInput.split(' ').map(fromBinary).join('');
+          break;
+        case 'octal':
+          decoded = encodedInput.split(' ').map(fromOctal).join('');
+          break;
+        case 'hexadecimal':
+          decoded = encodedInput.split(' ').map(fromHexadecimal).join('');
+          break;
+        default:
+          decoded = encodedInput;
+      }
+
+      document.getElementById('decoded-output').textContent = decoded;
+    }
+  </script>
+</body>
+
+</html>
